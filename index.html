@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indie Up Games</title>
+
+    <!-- Google Font for a modern indie feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
+
+            /* Neon purple gradient fading into black */
+            background: radial-gradient(circle at top,
+                rgba(180, 0, 255, 0.35),
+                rgba(120, 0, 200, 0.25),
+                rgba(40, 0, 60, 0.4),
+                #000000 70%);
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 30px;
+        }
+
+        h1 {
+            font-family: "Orbitron", sans-serif;
+            font-size: 3rem;
+            letter-spacing: 4px;
+            color: #d580ff;
+
+            /* Neon glow effect */
+            text-shadow:
+                0 0 10px #c300ff,
+                0 0 20px #c300ff,
+                0 0 40px #7a00cc;
+        }
+
+        .tagline {
+            margin-top: 10px;
+            color: #cfcfcf;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        nav {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        nav a {
+            color: #e6b3ff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px #bb00ff;
+        }
+
+        /* Game Grid */
+        .games {
+            padding: 50px 8%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(200, 120, 255, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            backdrop-filter: blur(6px);
+
+            transition: 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: #d580ff;
+            box-shadow: 0 0 25px rgba(200, 0, 255, 0.4);
+        }
+
+        .game-title {
+            font-family: "Orbitron", sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #e6b3ff;
+        }
+
+        .game-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .play-btn {
+            margin-top: 18px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(90deg, #bb00ff, #6a00ff);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .play-btn:hover {
+            box-shadow: 0 0 15px #bb00ff;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            font-size: 0.85rem;
+            color: #888;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Indie Up Games</h1>
+    <p class="tagline">Free Online Indie Games • Play Instantly</p>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">All Games</a>
+        <a href="#">New</a>
+        <a href="#">About</a>
+    </nav>
+</header>
+
+<section class="games">
+    <div class="game-card">
+        <div class="game-title">Pixel Runner</div>
+        <div class="game-desc">Fast-paced retro platformer built by indie devs.</div>
+        <button class="play-btn">Play Now</button>
+    </div>
+
+    <div class="game-card">
+        <div class="game-title">Neon Drift</div>
+        <div class="game-desc">Synthwave racing through glowing cityscapes.</div>
+        <button class="play-btn">Play Now</button>
+    </div>
+
+    <div class="game-card">
+        <div class="game-title">Dungeon Loop</div>
+        <div class="game-desc">Roguelike adventure with endless replayability.</div>
+        <button class="play-btn">Play Now</button>
+    </div>
+</section>
+
+<footer>
+    © 2026 Indie Up Games — Free Online Games for Everyone
+</footer>
+
+</body>
+</html>
