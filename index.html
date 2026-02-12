@@ -4,15 +4,93 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Indie Up Games</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #111;
+    color: white;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #1a1a1a;
+    padding: 15px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+nav a {
+    color: #00ff99;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Search Bar */
+.search-box {
+    margin-left: auto;
+}
+
+.search-box input {
+    padding: 6px;
+    border-radius: 6px;
+    border: none;
+}
+
+/* Game Cards */
+.container {
+    padding: 20px;
+}
+
+.game-card {
+    background-color: #1f1f1f;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.game-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.play-btn {
+    background-color: #00ff99;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+</style>
+
 </head>
+
 <body>
-  <div class="game-card"> 
-      <div class="game-title">Dungeon Loop</div>
-      <button class="play-btn">Play Now</button>
-      <div class="game-card">
-      <div class="game-title">Neon Drift</div>
-      <button class="play-btn">Play Now</button> 
-      </div>
-  </div>
+
+<nav>
+    <a href="#">Home</a>
+    <a href="#">All Games</a>
+    <a href="#">New</a>
+    <a href="#">About</a>
+
+    <div class="search-box">
+        <input type="text" placeholder="Search games...">
+    </div>
+</nav>
+
+<div class="container">
+    <div class="game-card">
+        <div class="game-title">Dungeon Loop</div>
+        <button class="play-btn">Play Now</button>
+    </div>
+
+    <div class="game-card">
+        <div class="game-title">Pixel Runner</div>
+        <button class="play-btn">Play Now</button>
+    </div>
+</div>
+
 </body>
 </html>
