@@ -8,180 +8,226 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
     font-family: 'Orbitron', sans-serif;
     background: linear-gradient(135deg, #0f0f1b, #1a1a2e);
-    color: purple;
+    color: white;
 }
 
-/* Navbar */
+/* NAVBAR */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 50px;
-    background: rgba(0,0,0,0.4);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    background:rgba(0,0,0,0.4);
     backdrop-filter: blur(10px);
 }
 
-.logo {
-    font-size: 24px;
-    color: #00f7ff;
-}
+.logo { font-size:24px; color:#00f7ff; }
 
 .nav-links a {
-    color: black;
-    text-decoration: none;
-    margin-left: 20px;
-    transition: 0.3s;
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    cursor:pointer;
 }
 
-.nav-links a:hover {
-    color: #00f7ff;
-}
+.nav-links a:hover { color:#00f7ff; }
 
-/* Hero Section */
+/* HERO */
 .hero {
-    text-align: center;
-    padding: 100px 20px;
-}
-
-.hero h1 {
-    font-size: 50px;
-    margin-bottom: 20px;
-}
-
-.search-box {
-    margin-top: 20px;
+    text-align:center;
+    padding:100px 20px;
 }
 
 .search-box input {
-    padding: 15px;
-    width: 350px;
-    border-radius: 30px;
-    border: none;
-    outline: none;
-    font-size: 16px;
+    padding:15px;
+    width:350px;
+    border-radius:30px;
+    border:none;
+    font-size:16px;
 }
 
 .search-box button {
-    padding: 15px 25px;
-    border-radius: 30px;
-    border: none;
-    margin-left: 10px;
-    cursor: pointer;
-    background: #00f7ff;
-    color: black;
-    font-weight: bold;
-    transition: 0.3s;
+    padding:15px 25px;
+    border-radius:30px;
+    border:none;
+    margin-left:10px;
+    background:#00f7ff;
+    cursor:pointer;
 }
 
-.search-box button:hover {
-    background: black;
+/* MODAL (Login / Signup) */
+.modal {
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+    justify-content:center;
+    align-items:center;
 }
 
-/* Game Section */
-.games {
-    padding: 50px;
+.modal-content {
+    background:#1f1f2e;
+    padding:40px;
+    border-radius:15px;
+    width:350px;
+    text-align:center;
 }
 
-.games h2 {
-    margin-bottom: 30px;
-    text-align: center;
+.modal-content h2 {
+    margin-bottom:20px;
 }
 
-.game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
+.modal-content input {
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    border:none;
 }
 
-.game-card {
-    background: rgba(255,255,255,0.05);
-    padding: 20px;
-    border-radius: 15px;
-    transition: 0.3s;
-    cursor: pointer;
+.modal-content button {
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    background:#00f7ff;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.game-card:hover {
-    transform: translateY(-10px);
-    background: rgba(0, 247, 255, 0.1);
+.close {
+    float:right;
+    cursor:pointer;
+    font-size:18px;
 }
 
-.game-card h3 {
-    margin-bottom: 10px;
-}
-
+/* FOOTER */
 .footer {
-    text-align: center;
-    padding: 20px;
-    margin-top: 50px;
-    background: rgba(0,0,0,0.4);
+    text-align:center;
+    padding:20px;
+    margin-top:50px;
+    background:rgba(0,0,0,0.4);
 }
 </style>
 </head>
 <body>
 
 <div class="navbar">
-    <div class="logo">🎮 GameVerse</div>
+    <div class="logo">🎮 Ender Site</div>
     <div class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">Trending</a>
-        <a href="#">New</a>
-        <a href="#">Profile</a>
+        <a onclick="openLogin()">Login</a>
+        <a onclick="openSignup()">Sign Up</a>
+        <a id="logoutBtn" style="display:none;" onclick="logout()">Logout</a>
     </div>
 </div>
 
 <section class="hero">
-    <h1>Discover Your Next Favorite Game</h1>
+    <h1>Welcome to EnderSite</h1>
     <div class="search-box">
-        <input type="text" id="searchBar" placeholder="Search games...">
-        <button onclick="searchGame()">Search</button>
+        <input type="text" placeholder="Search games...">
+        <button>Search</button>
     </div>
 </section>
 
-<section class="games">
-    <h2>🔥 Trending Games</h2>
-    <div class="game-grid">
-        <div class="game-card">
-            <h3>Cyber Clash</h3>
-            <p>Fast-paced futuristic combat.</p>
-        </div>
-        <div class="game-card">
-            <h3>Shadow Quest</h3>
-            <p>Adventure through dark realms.</p>
-        </div>
-        <div class="game-card">
-            <h3>Pixel Arena</h3>
-            <p>Retro multiplayer battle fun.</p>
-        </div>
-        <div class="game-card">
-            <h3>Galaxy Racer</h3>
-            <p>High-speed interstellar racing.</p>
-        </div>
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">✖</span>
+        <h2>Login</h2>
+        <input type="text" id="loginUser" placeholder="Username">
+        <input type="password" id="loginPass" placeholder="Password">
+        <button onclick="login()">Login</button>
     </div>
-</section>
+</div>
+
+<!-- SIGNUP MODAL -->
+<div class="modal" id="signupModal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">✖</span>
+        <h2>Create Account</h2>
+        <input type="text" id="signupUser" placeholder="Username">
+        <input type="password" id="signupPass" placeholder="Password">
+        <button onclick="signup()">Sign Up</button>
+    </div>
+</div>
 
 <div class="footer">
-    © 2026 GameVerse | All Rights Reserved
+    © 2026 Ender Corp, Allies with Monroe Entertainment All games go to their owners  
 </div>
 
 <script>
-function searchGame() {
-    let query = document.getElementById("searchBar").value;
-    if(query.trim() === "") {
-        alert("Type a game name first!");
+// Open / Close
+function openLogin() {
+    document.getElementById("loginModal").style.display = "flex";
+}
+
+function openSignup() {
+    document.getElementById("signupModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("loginModal").style.display = "none";
+    document.getElementById("signupModal").style.display = "none";
+}
+
+// Signup
+function signup() {
+    let user = document.getElementById("signupUser").value;
+    let pass = document.getElementById("signupPass").value;
+
+    if(user === "" || pass === "") {
+        alert("Fill in all fields!");
+        return;
+    }
+
+    localStorage.setItem(user, pass);
+    alert("Account created!");
+    closeModal();
+}
+
+// Login
+function login() {
+    let user = document.getElementById("loginUser").value;
+    let pass = document.getElementById("loginPass").value;
+
+    let storedPass = localStorage.getItem(user);
+
+    if(storedPass === pass) {
+        alert("Login successful!");
+        localStorage.setItem("loggedInUser", user);
+        updateUI();
+        closeModal();
     } else {
-        alert("Searching for: " + query);
+        alert("Incorrect username or password.");
     }
 }
+
+// Logout
+function logout() {
+    localStorage.removeItem("loggedInUser");
+    updateUI();
+}
+
+// Update Navbar
+function updateUI() {
+    let user = localStorage.getItem("loggedInUser");
+    if(user) {
+        document.querySelector(".nav-links").innerHTML =
+            "<span>👤 " + user + "</span>" +
+            "<a onclick='logout()'>Logout</a>";
+    }
+}
+
+updateUI();
 </script>
 
 </body>
