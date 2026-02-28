@@ -28,14 +28,27 @@ body {
 
 .logo { font-size:24px; color:#00f7ff; }
 
+.nav-links {
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
 .nav-links a {
     color:white;
     text-decoration:none;
-    margin-left:20px;
     cursor:pointer;
 }
 
 .nav-links a:hover { color:#00f7ff; }
+
+.avatar-img {
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #00f7ff;
+}
 
 /* HERO */
 .hero {
@@ -43,24 +56,7 @@ body {
     padding:100px 20px;
 }
 
-.search-box input {
-    padding:15px;
-    width:350px;
-    border-radius:30px;
-    border:none;
-    font-size:16px;
-}
-
-.search-box button {
-    padding:15px 25px;
-    border-radius:30px;
-    border:none;
-    margin-left:10px;
-    background:#00f7ff;
-    cursor:pointer;
-}
-
-/* MODAL (Login / Signup) */
+/* MODAL */
 .modal {
     display:none;
     position:fixed;
@@ -81,10 +77,6 @@ body {
     text-align:center;
 }
 
-.modal-content h2 {
-    margin-bottom:20px;
-}
-
 .modal-content input {
     width:100%;
     padding:12px;
@@ -99,23 +91,34 @@ body {
     margin-top:10px;
     border:none;
     border-radius:8px;
-    background:#00f7ff;
+    background:#000000;
     font-weight:bold;
     cursor:pointer;
+}
+
+/* Avatar Selection */
+.avatar-select {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin:15px 0;
+}
+
+.avatar-option {
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    cursor:pointer;
+    border:2px solid transparent;
+}
+
+.avatar-option.selected {
+    border:2px solid #00f7ff;
 }
 
 .close {
     float:right;
     cursor:pointer;
-    font-size:18px;
-}
-
-/* FOOTER */
-.footer {
-    text-align:center;
-    padding:20px;
-    margin-top:50px;
-    background:rgba(0,0,0,0.4);
 }
 </style>
 </head>
@@ -123,19 +126,14 @@ body {
 
 <div class="navbar">
     <div class="logo">🎮 Ender Site</div>
-    <div class="nav-links">
+    <div class="nav-links" id="navArea">
         <a onclick="openLogin()">Login</a>
         <a onclick="openSignup()">Sign Up</a>
-        <a id="logoutBtn" style="display:none;" onclick="logout()">Logout</a>
     </div>
 </div>
 
 <section class="hero">
-    <h1>Welcome to EnderSite</h1>
-    <div class="search-box">
-        <input type="text" placeholder="Search games...">
-        <button>Search</button>
-    </div>
+    <h1>Welcome to EnderEssence!</h1>
 </section>
 
 <!-- LOGIN MODAL -->
@@ -156,15 +154,29 @@ body {
         <h2>Create Account</h2>
         <input type="text" id="signupUser" placeholder="Username">
         <input type="password" id="signupPass" placeholder="Password">
+
+        <p>Select Avatar:</p>
+        <div class="avatar-select">
+            <img src="https://i.pravatar.cc/100?img=1" class="avatar-option" onclick="selectAvatar(this)">
+            <img src="https://i.pravatar.cc/100?img=5" class="avatar-option" onclick="selectAvatar(this)">
+            <img src="https://i.pravatar.cc/100?img=8" class="avatar-option" onclick="selectAvatar(this)">
+            <img src="https://i.pravatar.cc/100?img=12" class="avatar-option" onclick="selectAvatar(this)">
+        </div>
+
         <button onclick="signup()">Sign Up</button>
     </div>
 </div>
 
-<div class="footer">
-    © 2026 Ender Corp, Allies with Monroe Entertainment All games go to their owners  
-</div>
-
 <script>
+let selectedAvatar = "";
+
+// Avatar selection
+function selectAvatar(img) {
+    document.querySelectorAll(".avatar-option").forEach(a => a.classList.remove("selected"));
+    img.classList.add("selected");
+    selectedAvatar = img.src;
+}
+
 // Open / Close
 function openLogin() {
     document.getElementById("loginModal").style.display = "flex";
@@ -184,12 +196,17 @@ function signup() {
     let user = document.getElementById("signupUser").value;
     let pass = document.getElementById("signupPass").value;
 
-    if(user === "" || pass === "") {
-        alert("Fill in all fields!");
+    if(user === "" || pass === "" || selectedAvatar === "") {
+        alert("Fill all fields & choose an avatar!");
         return;
     }
 
-    localStorage.setItem(user, pass);
+    let account = {
+        password: pass,
+        avatar: selectedAvatar
+    };
+
+    localStorage.setItem(user, JSON.stringify(account));
     alert("Account created!");
     closeModal();
 }
@@ -199,15 +216,14 @@ function login() {
     let user = document.getElementById("loginUser").value;
     let pass = document.getElementById("loginPass").value;
 
-    let storedPass = localStorage.getItem(user);
+    let account = JSON.parse(localStorage.getItem(user));
 
-    if(storedPass === pass) {
-        alert("Login successful!");
+    if(account && account.password === pass) {
         localStorage.setItem("loggedInUser", user);
         updateUI();
         closeModal();
     } else {
-        alert("Incorrect username or password.");
+        alert("Incorrect login.");
     }
 }
 
@@ -220,10 +236,20 @@ function logout() {
 // Update Navbar
 function updateUI() {
     let user = localStorage.getItem("loggedInUser");
+    let nav = document.getElementById("navArea");
+
     if(user) {
-        document.querySelector(".nav-links").innerHTML =
-            "<span>👤 " + user + "</span>" +
-            "<a onclick='logout()'>Logout</a>";
+        let account = JSON.parse(localStorage.getItem(user));
+        nav.innerHTML = `
+            <img src="${account.avatar}" class="avatar-img">
+            <span>${user}</span>
+            <a onclick="logout()">Logout</a>
+        `;
+    } else {
+        nav.innerHTML = `
+            <a onclick="openLogin()">Login</a>
+            <a onclick="openSignup()">Sign Up</a>
+        `;
     }
 }
 
