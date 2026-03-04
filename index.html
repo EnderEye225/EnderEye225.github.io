@@ -1,260 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ender Site</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-    font-family: 'Orbitron', sans-serif;
-    background: linear-gradient(135deg, #0f0f1b, #1a1a2e);
-    color: white;
-}
-
-/* NAVBAR */
-.navbar {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 50px;
-    background:rgba(0,0,0,0.4);
-    backdrop-filter: blur(10px);
-}
-
-.logo { font-size:24px; color:#00f7ff; }
-
-.nav-links {
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.nav-links a {
-    color:white;
-    text-decoration:none;
-    cursor:pointer;
-}
-
-.nav-links a:hover { color:#00f7ff; }
-
-.avatar-img {
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid #00f7ff;
-}
-
-/* HERO */
-.hero {
-    text-align:center;
-    padding:100px 20px;
-}
-
-/* MODAL */
-.modal {
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.7);
-    justify-content:center;
-    align-items:center;
-}
-
-.modal-content {
-    background:#1f1f2e;
-    padding:40px;
-    border-radius:15px;
-    width:350px;
-    text-align:center;
-}
-
-.modal-content input {
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:8px;
-    border:none;
-}
-
-.modal-content button {
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:8px;
-    background:#000000;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-/* Avatar Selection */
-.avatar-select {
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin:15px 0;
-}
-
-.avatar-option {
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    cursor:pointer;
-    border:2px solid transparent;
-}
-
-.avatar-option.selected {
-    border:2px solid #00f7ff;
-}
-
-.close {
-    float:right;
-    cursor:pointer;
-}
-</style>
+  <title>Kellum Social</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="navbar">
-    <div class="logo">🎮 Ender Site</div>
-    <div class="nav-links" id="navArea">
-        <a onclick="openLogin()">Login</a>
-        <a onclick="openSignup()">Sign Up</a>
-    </div>
+<div id="auth">
+  <h2>Login / Signup</h2>
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="signUp()">Sign Up</button>
+  <button onclick="signIn()">Login</button>
 </div>
 
-<section class="hero">
-    <h1>Welcome to EnderEssence!</h1>
-</section>
-
-<!-- LOGIN MODAL -->
-<div class="modal" id="loginModal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">✖</span>
-        <h2>Login</h2>
-        <input type="text" id="loginUser" placeholder="Username">
-        <input type="password" id="loginPass" placeholder="Password">
-        <button onclick="login()">Login</button>
-    </div>
+<div id="chat" style="display:none;">
+  <h2>Chat Room</h2>
+  <div id="messages"></div>
+  <input id="messageInput" placeholder="Message">
+  <button onclick="sendMessage()">Send</button>
+  <button onclick="logout()">Logout</button>
 </div>
 
-<!-- SIGNUP MODAL -->
-<div class="modal" id="signupModal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">✖</span>
-        <h2>Create Account</h2>
-        <input type="text" id="signupUser" placeholder="Username">
-        <input type="password" id="signupPass" placeholder="Password">
-
-        <p>Select Avatar:</p>
-        <div class="avatar-select">
-            <img src="https://i.pravatar.cc/100?img=1" class="avatar-option" onclick="selectAvatar(this)">
-            <img src="https://i.pravatar.cc/100?img=5" class="avatar-option" onclick="selectAvatar(this)">
-            <img src="https://i.pravatar.cc/100?img=8" class="avatar-option" onclick="selectAvatar(this)">
-            <img src="https://i.pravatar.cc/100?img=12" class="avatar-option" onclick="selectAvatar(this)">
-        </div>
-
-        <button onclick="signup()">Sign Up</button>
-    </div>
-</div>
-
-<script>
-let selectedAvatar = "";
-
-// Avatar selection
-function selectAvatar(img) {
-    document.querySelectorAll(".avatar-option").forEach(a => a.classList.remove("selected"));
-    img.classList.add("selected");
-    selectedAvatar = img.src;
-}
-
-// Open / Close
-function openLogin() {
-    document.getElementById("loginModal").style.display = "flex";
-}
-
-function openSignup() {
-    document.getElementById("signupModal").style.display = "flex";
-}
-
-function closeModal() {
-    document.getElementById("loginModal").style.display = "none";
-    document.getElementById("signupModal").style.display = "none";
-}
-
-// Signup
-function signup() {
-    let user = document.getElementById("signupUser").value;
-    let pass = document.getElementById("signupPass").value;
-
-    if(user === "" || pass === "" || selectedAvatar === "") {
-        alert("Fill all fields & choose an avatar!");
-        return;
-    }
-
-    let account = {
-        password: pass,
-        avatar: selectedAvatar
-    };
-
-    localStorage.setItem(user, JSON.stringify(account));
-    alert("Account created!");
-    closeModal();
-}
-
-// Login
-function login() {
-    let user = document.getElementById("loginUser").value;
-    let pass = document.getElementById("loginPass").value;
-
-    let account = JSON.parse(localStorage.getItem(user));
-
-    if(account && account.password === pass) {
-        localStorage.setItem("loggedInUser", user);
-        updateUI();
-        closeModal();
-    } else {
-        alert("Incorrect login.");
-    }
-}
-
-// Logout
-function logout() {
-    localStorage.removeItem("loggedInUser");
-    updateUI();
-}
-
-// Update Navbar
-function updateUI() {
-    let user = localStorage.getItem("loggedInUser");
-    let nav = document.getElementById("navArea");
-
-    if(user) {
-        let account = JSON.parse(localStorage.getItem(user));
-        nav.innerHTML = `
-            <img src="${account.avatar}" class="avatar-img">
-            <span>${user}</span>
-            <a onclick="logout()">Logout</a>
-        `;
-    } else {
-        nav.innerHTML = `
-            <a onclick="openLogin()">Login</a>
-            <a onclick="openSignup()">Sign Up</a>
-        `;
-    }
-}
-
-updateUI();
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>
